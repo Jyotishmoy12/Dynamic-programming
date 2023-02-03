@@ -43,3 +43,28 @@ long getMaximumProfit(long *values, int n)
   }
   return dp[0][1];
 }
+
+
+//space optimization
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+    vector<int>ahead(2,0), curr(2,0);
+    int n=prices.size();
+    ahead[0]=ahead[1]=0;
+    for(int ind=n-1, ind>=0;ind--){
+        for(int buy=0;buy<=1;buy++){
+            int profit=0;
+            if(buy){
+                profit=max(-prices[ind]+ahead[0], 0+ahead[1]);
+            }
+            else{
+                profit=max(prices[ind]+ahead[1], 0+ahead[0]);
+            }
+            curr[buy]=profit;
+        }
+        ahead=curr;
+    } 
+    return ahead;   
+    }
+};
